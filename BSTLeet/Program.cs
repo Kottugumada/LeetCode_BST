@@ -229,5 +229,62 @@ namespace BSTLeet
             root.right = SortedArrayToBST(nums,mid+1,end);
             return root;
         }
+        
+       static int bstsum = 0;
+        /// <summary>
+        /// Convert BST to Greater Tree
+        /// https://leetcode.com/problems/convert-bst-to-greater-tree/description/
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public static TreeNode ConvertBSTtoGreaterTree(TreeNode root)
+        {
+            
+            if (root != null)
+            {
+                ConvertBSTtoGreaterTree(root.right);
+                bstsum = bstsum + root.val;
+                root.val = bstsum;
+                ConvertBSTtoGreaterTree(root.left);
+            }
+            return root;
+        }
+        /// <summary>
+        /// Two Sum of BST
+        /// https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
+        /// </summary>
+        /// <param name="root"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static bool TwoSumBST(TreeNode root, int target)
+        {
+            if (root == null) return false;
+            HashSet<int> set = new HashSet<int>();
+            return IsExists(set,target,root);
+        
+        }
+        private static bool IsExists(HashSet<int> set,int k, TreeNode root)
+        {
+            if(root == null) return false;
+            if (set.Contains(k - root.val)) return true;
+            set.Add(root.val);
+            return IsExists(set, k, root.left) || IsExists(set, k, root.right);
+        }
+
+        int sumOfLeftLeaves = 0;
+        /// <summary>
+        /// Sum of Left Leaves
+        /// https://leetcode.com/problems/sum-of-left-leaves/description/
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public int SumOfLeftLeaves(TreeNode root)
+        {
+
+            if (root == null) return sumOfLeftLeaves;
+            int left = 0;
+            if (root.left != null && (root.left.left == null && root.left.right == null)) left = root.left.val;
+            return left + SumOfLeftLeaves(root.left) + SumOfLeftLeaves(root.right);
+        }
     }
 }
