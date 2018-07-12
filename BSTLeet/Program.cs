@@ -286,5 +286,25 @@ namespace BSTLeet
             if (root.left != null && (root.left.left == null && root.left.right == null)) left = root.left.val;
             return left + SumOfLeftLeaves(root.left) + SumOfLeftLeaves(root.right);
         }
+                private static int pre = -1;
+        /// <summary>
+        /// Validate BST
+        /// https://leetcode.com/problems/validate-binary-search-tree/description/
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public static bool IsValidBST(TreeNode root)
+        {
+            if (root != null)
+            {
+                bool b1 = IsValidBST(root.left);
+                if (pre != -1 && pre >= root.val)
+                    return false;
+                pre = root.val;
+                return b1 && IsValidBST(root.right);
+            }
+
+            return true;
+        }
     }
 }
